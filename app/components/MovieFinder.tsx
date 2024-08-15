@@ -14,7 +14,7 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useMovieContext } from "./MovieProvider";
 import { log } from "console";
 
@@ -25,17 +25,15 @@ const MovieFinder = () => {
   const [timeStart, setTimeStart] = useState("");
   const [timeEnd, setTimeEnd] = useState("");
 
-  const handleSearch = () => {
+  const handleSearch = useCallback(() => {
     let url =
       "https://821f21ea-3d75-4b17-bac5-f8a0fc587ad2.mock.pstmn.io/new_movies/?r_date=2020-01-01";
 
     if (displayFinder === 1) {
-      // URL for specific movie theater
       url = `https://821f21ea-3d75-4b17-bac5-f8a0fc587ad2.mock.pstmn.io/specific_movie_theater?theater_name=${encodeURIComponent(
         theaterName
       )}&d_date=${encodeURIComponent(date)}`;
     } else if (displayFinder === 2) {
-      // URL for time slot
       url = `https://821f21ea-3d75-4b17-bac5-f8a0fc587ad2.mock.pstmn.io/timeslot?theater_name=${encodeURIComponent(
         theaterName
       )}&time_start=${encodeURIComponent(
@@ -46,11 +44,11 @@ const MovieFinder = () => {
     if (url) {
       fetchMovies(url);
     }
-  };
+  }, [displayFinder, theaterName, date, timeStart, timeEnd, fetchMovies]);
 
   useEffect(() => {
     handleSearch();
-  }, []);
+  }, [handleSearch]);
 
   return (
     <HStack
