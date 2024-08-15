@@ -25,7 +25,7 @@ const MovieFinder = () => {
   const [timeStart, setTimeStart] = useState("");
   const [timeEnd, setTimeEnd] = useState("");
 
-  const handleSearch = useCallback(() => {
+  const handleSearch = () => {
     let url =
       "https://821f21ea-3d75-4b17-bac5-f8a0fc587ad2.mock.pstmn.io/new_movies/?r_date=2020-01-01";
 
@@ -44,11 +44,11 @@ const MovieFinder = () => {
     if (url) {
       fetchMovies(url);
     }
-  }, [displayFinder, theaterName, date, timeStart, timeEnd, fetchMovies]);
+  };
 
   useEffect(() => {
     handleSearch();
-  }, [handleSearch]);
+  }, []);
 
   return (
     <HStack
